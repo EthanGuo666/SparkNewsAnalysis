@@ -8,5 +8,6 @@
 
 ## 2. Data preprocessing:
 ### 1. News Text Classification
-- Run TextClassification.py to categorize the data into three rough classes.
--
+- Run TextClassification.py to roughly categorize the data into three classes, get each of them stored in ./data directory.
+### 2. Chinese Word Segmentation
+- Run WordSegmentation.py
