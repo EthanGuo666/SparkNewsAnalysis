@@ -5,9 +5,9 @@
 
 - Run GetLinks.py to fetch the url links of news pages from the website of the China Association for Science and Technology.
 - Run GetContents.py to download news title, main body and write into news_data.csv file.
-
+<br/>(*There are still bugs in GetContents.py, but I'm not gonna refine it.)
 ## 2. Data preprocessing:
 ### 1. News Text Classification
-- Run TextClassification.py to roughly categorize the data into three classes, get each of them stored in ./data directory.
+- Run TextClassification.py to roughly classify the data into three categories.
 ### 2. Chinese Word Segmentation
 - Run WordSegmentation.py
