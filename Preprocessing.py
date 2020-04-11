@@ -42,8 +42,6 @@ sc = spark.sparkContext
 # 读入csv
 fileDF = spark.read.csv("data/origin_news_data.csv", sep=',', header=True, encoding='GBK')
 
-global local_assoc_data , national_academy_data, national_assoc_data
-
 def classifying():
     # 地方科协
     local1 = fileDF.filter(fileDF["title"].contains("省科"))
@@ -65,6 +63,7 @@ def classifying():
     # √ national_assoc_data.write.csv("data/national_assoc_data.csv", "overwrite", encoding='GBK')
     return local_assoc_data1, national_academy_data1, national_assoc_data1
 
+global local_assoc_data , national_academy_data, national_assoc_data
 # Execute the classification.
 local_assoc_data, national_academy_data, national_assoc_data = classifying()
 
