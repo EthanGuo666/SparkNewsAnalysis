@@ -65,4 +65,6 @@ def classifying():
     # √ national_assoc_data.write.csv("data/national_assoc_data.csv", "overwrite", encoding='GBK')
     return local_assoc_data1, national_academy_data1, national_assoc_data1
 
+# Execute the classification.
 local_assoc_data, national_academy_data, national_assoc_data = classifying()
+
