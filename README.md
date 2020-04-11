@@ -7,7 +7,8 @@
 - Run GetContents.py to download news title, main body and write into news_data.csv file.
 <br/>(*There are still bugs in GetContents.py, but I'm not gonna refine it.)
 ## 2. Data preprocessing:
+Run Preprocessing.py:
 ### 1. News Text Classification
-- Run TextClassification.py to roughly classify the data into three categories.
+- Function classifying() is to roughly classify the data into three categories.
 ### 2. Chinese Word Segmentation
-- Run WordSegmentation.py
+- Function word_segmentation()
