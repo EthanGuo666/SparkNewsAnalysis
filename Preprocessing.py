@@ -1,36 +1,6 @@
-##################################################################
-# 以下为pandas版本的正确代码
-# import pandas as pd
-#
-# # Read data
-# path = "data/origin_news_data.csv"
-# data = pd.read_csv(path, encoding='GBK')
-#
-# def classifying():
-#     # 中国科协
-#     national_assoc_data = pd.DataFrame()
-#     # 地方科协
-#     local_assoc_data = pd.DataFrame()
-#     # 全国学会
-#     national_academy_data = pd.DataFrame()
-#     # 遍历整张表
-#     for i in range(len(data)):
-#         text = str(data.loc[[i], ['title']]) + " " + str(data.loc[[i], ['main_body']])
-#         if ("省科" in text) or ("市科" in text) or ("省政府" in text) or ("市政府" in text) or ("基层" in text) or ("区" in text):
-#             local_assoc_data = local_assoc_data.append(data.loc[[i]], ignore_index = True)
-#         elif "学会" in text:
-#             national_academy_data = national_academy_data.append(data.loc[[i]], ignore_index = True)
-#         else:
-#             national_assoc_data = national_assoc_data.append(data.loc[[i]], ignore_index = True)
-#     local_assoc_data.to_csv("data/local_assoc_data.csv")
-#     national_academy_data.to_csv("data/national_academy_data.csv")
-#     national_assoc_data.to_csv("data/national_assoc_data.csv")
-#
-# classifying()
-################################################################################################
-
-# 以下spark版本的文本粗分类
-from pyspark.sql import SparkSession
+import jieba.analyse as analyse
+from pyspark import SparkConf, SparkContext
+from pyspark.sql import SparkSession, Row, SQLContext
 
 # 启动spark
 spark = SparkSession.builder.master("local") \
@@ -39,31 +9,34 @@ spark = SparkSession.builder.master("local") \
     .getOrCreate()
 sc = spark.sparkContext
 
-# 读入csv
-fileDF = spark.read.csv("data/origin_news_data.csv", sep=',', header=True, encoding='GBK')
+file_df = spark.read.csv("data/origin_news_data.csv", sep=',', header=True, encoding='GBK')
 
-def classifying():
-    # 地方科协
-    local1 = fileDF.filter(fileDF["title"].contains("省科"))
-    local2 = fileDF.filter(fileDF['title'].contains("市科"))
-    local3 = fileDF.filter(fileDF['title'].contains("省政"))
-    local4 = fileDF.filter(fileDF['title'].contains("市政"))
-    local5 = fileDF.filter(fileDF['title'].contains("区"))
-    local6 = fileDF.filter(fileDF['title'].contains("基层"))
-    #求并集，去重
-    local_assoc_data1 = local1.union(local2).union(local3).union(local4).union(local5).union(local6).distinct()
-    # √ local_assoc_data.write.csv("data/local_assoc_data.csv", "overwrite", encoding='GBK')
+# file_list是一个[Row(title='xxx', main_body='xxx', link='xxx'), ..., Row()]
+file_list = file_df.collect()
+# print(file_list)
 
-    # 全国学会
-    national_academy_data1 = fileDF.filter(fileDF["title"].contains("学会")).distinct()
-    # √ national_academy_data.write.csv("data/national_academy_data.csv", "overwrite", encoding='GBK')
+# set the cpu core number in the second parameter.
+data_rdd = sc.parallelize(file_list, 2)
+# type(data_rdd) = <class 'pyspark.rdd.RDD'>
 
-    # 中国科协
-    national_assoc_data1 = fileDF.filter(fileDF["title"].contains("中国科协")).distinct()
-    # √ national_assoc_data.write.csv("data/national_assoc_data.csv", "overwrite", encoding='GBK')
-    return local_assoc_data1, national_academy_data1, national_assoc_data1
+# segmentate title into key words, parameter is a row of RDD
+def word_seg(single_news_piece):
+    title_string = str(single_news_piece['title'])
+    # extract key words, topK is the K biggest values of TF-IDF index.
+    title_seg = analyse.extract_tags(title_string, topK=10, withWeight=False, allowPOS=())
+    return Row(title = str(single_news_piece['main_body']),
+               main_body = str(single_news_piece['main_body']),
+               link = str(single_news_piece['link']),
+               title_seg = title_seg)
 
-global local_assoc_data , national_academy_data, national_assoc_data
-# Execute the classification.
-local_assoc_data, national_academy_data, national_assoc_data = classifying()
+word_seg_rdd = data_rdd.map(word_seg)
+# # create dataframe from rdd
+# 对word_seg_df = SQLContext(sc).createDataFrame(word_seg_rdd)
+
+
+
+print(word_seg_rdd.collect())
+
+
+
 
