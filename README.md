@@ -8,7 +8,8 @@
 <br/>(*There are still bugs in GetContents.py, but I'm not gonna refine it.)
 ## 2. Data preprocessing:
 Run Preprocessing.py:
-### 1. News Text Classification
-- Function classifying() is to roughly classify the data into three categories.
-### 2. Chinese Word Segmentation
-- Function word_segmentation()
+### 1. Chinese word segmentation, stop words removal, key words extraction.
+- Function word_segmentation().
+### 2. News Text Classification
+- Function word2vector() can transfer words list into vectors.
+
