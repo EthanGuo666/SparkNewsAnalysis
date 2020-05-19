@@ -35,7 +35,7 @@ stopwords = stopwords['stopword'].values
 
 
 # segmentate title into key words, parameter is a row of RDD
-def word_seg(single_news_piece):
+def tokenizer(single_news_piece):
     # title_string = str(single_news_piece['title'])
     title_string = single_news_piece['title']
     # main_body_string = str(single_news_piece['main_body'])
@@ -56,7 +56,7 @@ def word_seg(single_news_piece):
                words=words)
 
 
-word_seg_rdd = data_rdd.map(word_seg)
+word_seg_rdd = data_rdd.map(tokenizer)
 # # create dataframe from rdd
 # 对word_seg_df = SQLContext(sc).createDataFrame(word_seg_rdd)
 # 对word_seg_df = word_seg_rdd.toDF()
@@ -96,7 +96,7 @@ def cosine_value(vector1, vector2):
 # calculate cosine similarity of news data and category centers.
 def add_cosine_similarity(single_line_rdd):
     data_vector = single_line_rdd['features']
-    distance = []
+    distance = list()
     distance.append(cosine_value(data_vector, category_center0))
     distance.append(cosine_value(data_vector, category_center1))
     distance.append(cosine_value(data_vector, category_center2))
@@ -115,11 +115,9 @@ def add_cosine_similarity(single_line_rdd):
                cos_similarity=float(max_value),
                category=category)
 
-
 classified_data = featured_data_rdd.map(add_cosine_similarity)
 classified_df = classified_data.toDF()
 classified_df.show()
-
 
 def compare_distance(num):
     print(featured_data_rdd.collect()[num]['title'])
@@ -141,10 +139,9 @@ def compare_distance(num):
     d7 = cosine_value(v, category_center7)
     print(d7)
 
-
 # compare_distance(8)
 
-classfication = []
+classfication = list()
 classfication.append(classified_df.where(classified_df.category == 0))
 classfication.append(classified_df.where(classified_df.category == 1))
 classfication.append(classified_df.where(classified_df.category == 2))
@@ -161,11 +158,9 @@ for i in classfication:
 
 print(type(classfication[3]))
 
-
 def topN_sim_in_category(class_num):
     sorted_class = classfication[class_num].orderBy(classfication[class_num].cos_similarity.desc())
     sorted_class.select('cos_similarity', 'title', 'link').show()
-
 
 for i in range(8):
     topN_sim_in_category(i)
@@ -186,7 +181,7 @@ def word_count(listname):
 # 词频排序
 def topN_word_in_category(class_num):
     row_list = classfication[class_num].select('words').collect()
-    word_list = []
+    word_list = list()
     for i in row_list:
         word_list += i['words']
     # print(word_list)
@@ -195,13 +190,12 @@ def topN_word_in_category(class_num):
     word_frequency_list.sort(key=lambda x: x[1], reverse=True)
     return word_frequency_list
 
-
 word_freq_list = topN_word_in_category(3)
 
 
 # 根据词频生成词云
 def generate_wordcloud(word_list):
-    text = ""
+    text = str()
     if len(word_list) > 150:
         for i in word_list[:150]:
             text += i[0] + ' '
@@ -216,7 +210,6 @@ def generate_wordcloud(word_list):
                           background_color='white').generate_from_text(text)
     image_produce = wordcloud.to_image()
     image_produce.show()
-
 
 generate_wordcloud(word_freq_list)
 
@@ -240,7 +233,6 @@ def loc_distribution(class_num):
         distribution.append((province[i], count[i]))
     distribution.sort(key=lambda x: x[1], reverse=True)
     return distribution
-
 
 loc_distribution(3)
 
