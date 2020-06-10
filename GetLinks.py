@@ -14,7 +14,7 @@ def download_html(url):
         raise Exception("error")
     text = str(r.content, "utf-8")
     htmls.append(text)
-    return htmls
+    return htmls[0]
 
 #抓取单个网页下的10个链接
 def get_links(html):
@@ -47,4 +47,4 @@ target_links = []
 
 target_url = "http://www.bast.net.cn/col/col23312/index.html"
 target_html = download_html(target_url)
-target_links += get_links(target_html[0])
+target_links += get_links(target_html)
