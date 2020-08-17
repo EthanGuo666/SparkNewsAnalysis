@@ -2,7 +2,7 @@
 SparkNewsAnalysis is a degree thesis project finished in my last undergraduate year at BITCS.
 
 <h1 align="center">
-  <img src="https://github.com/EasonGuo666/SparkNewsAnalysis/blob/master/data/wordcloud.png" alt="wordcloud" width="160">
+  <img src="https://github.com/EasonGuo666/SparkNewsAnalysis/blob/master/data/wordcloud.png" alt="wordcloud" width="600">
 </h1>
 
 ## 👉Introduction
