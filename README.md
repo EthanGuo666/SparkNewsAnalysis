@@ -18,9 +18,10 @@ Run Processing.py, there are five substeps in this part.
 - Run function Word2Vec() to create a wordvector object.
 - Transfer words list into high dimension vectors.
 - Calculate cosine similarity between category center and vectors of corresponding pieces of news data, classify the news into the category with highest similarity.
-#### 5. Statistics and visualization
+## 3. Statistics and visualization
 - This step contains three features:
 - ① TopN titles in a category;
 - ② TopN words in a category;
 - ③ Location distribution.
-- Which are easy to understand.
+
+Which are easy to understand.
