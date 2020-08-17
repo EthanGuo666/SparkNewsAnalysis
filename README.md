@@ -1,6 +1,10 @@
 # 🎓SparkNewsAnalysis
 SparkNewsAnalysis is a degree thesis project finished in my last undergraduate year at BITCS.
 
+<h1 align="center">
+  <img src="https://github.com/EasonGuo666/SparkNewsAnalysis/blob/master/data/wordcloud.png" alt="wordcloud" width="160">
+</h1>
+
 ## 👉Introduction
 This amazing project can analyze tremendous amount of news data and rank them in order of topic heat.
 <br/>The input is a csv file storing news piece and the output is rankings in dataframe and wordcloud picture.
@@ -12,9 +16,9 @@ Three steps in total.
 ### 1. Data Collecting:
 
 - Run `GetLinks.py` to fetch the url links of news pages from the website of the China Association for Science and Technology.
-- Run `GetContents.py` to download news title, main body and write into news_data.csv file.
-<br/>
-~~Of course there are still bugs in GetContents.py, but I just don't gonna refine it.~~
+- Run `GetContents.py` to download news title, main body and write into `news_data.csv` file.
+
+~~Of course there are still bugs in step1, but I just don't gonna refine it.~~
 
 ### 2. Data processing:
 Run `Processing.py`, there are five substeps in this part.
@@ -41,5 +45,3 @@ This step contains three features:
 - ③ Location distribution.
 
 Which are easy to understand.
-
-
