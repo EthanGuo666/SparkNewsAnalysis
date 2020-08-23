@@ -1,5 +1,5 @@
 # 🎓SparkNewsAnalysis
-SparkNewsAnalysis is a degree thesis project finished in my last undergraduate year at BITCS.
+SparkNewsAnalysis is the degree thesis project finished in my senior year at BITCS.
 
 <h1 align="center">
   <img src="https://github.com/EasonGuo666/SparkNewsAnalysis/blob/master/data/wordcloud.png" alt="wordcloud" width="600">
@@ -21,7 +21,7 @@ Three steps in total.
 ~~Of course there are still bugs in step1, but I just don't wanna refine it.~~
 
 ### 2. Data processing:
-Run `Processing.py`, there are five substeps in this part.
+Run `Processing.py`, there are four substeps in this part.
 
 ##### 1. Import needed python libraries and start spark.
 - Too easy, just skip~
@@ -40,8 +40,8 @@ Run `Processing.py`, there are five substeps in this part.
 ### 3. Statistics and visualization
 
 This step contains three features:
-- ① TopN titles in a category;
-- ② TopN words in a category;
-- ③ Location distribution.
+- ① Analyze TopN titles in a category;
+- ② Analyze TopN words in a category;
+- ③ Analyze Location distribution.
 
 Which are easy to understand.
