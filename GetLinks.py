@@ -41,7 +41,7 @@ def get_links(html):
         links.append(full_link)
     print(links)
     return links
-
+ 
 global target_links
 target_links = []
 
